@@ -49,8 +49,8 @@ function App() {
     links: []
   }
 
-  const planetList = planetData.allPlanets.planets;
-  const filmList = filmData.allFilms.films;
+  const planetList = planetData?.allPlanets.planets;
+  const filmList = filmData?.allFilms.films;
 
   // populate with unique planets
   for (let i = 0; i < planetList.length; i++) {
@@ -70,15 +70,34 @@ function App() {
     })
   }
 
-  // create tree
+  const filmlessPlanets = planetList.filter((obj) => obj["filmConnection"]["films"].length === 0);
+  // const filmPlanets = planetList.filter((obj) => obj["filmConnection"]["films"].length !== 0)
+
+  for (let i = 0; i < filmlessPlanets.length; i++) {
+    for (let j = 0; j < filmlessPlanets.length; j++) {
+      graphData["links"].push({
+        source: filmlessPlanets[i]["id"],
+        target: filmlessPlanets[j]["id"]
+      })
+    }
+
+    // graphData["links"].push({
+    //   source: filmlessPlanets[i]["id"],
+    //   target: filmlessPlanets[j]["id"]
+    // })
+  }
+
+  // create tree with associations
   for (let i = 0; i < planetList.length; i++) {
-    const currPlanetFilmConnectionList = planetList[i]["filmConnection"]["films"];
-      for (let j = 0; j < currPlanetFilmConnectionList.length; j++) {
-        graphData["links"].push({
-          source: planetList[i]["id"],
-          target: currPlanetFilmConnectionList[j]["id"]
-        })
-      }   
+    const filmPlanets = planetList[i]["filmConnection"]["films"];
+      if (filmPlanets.length > 0) {
+        for (let j = 0; j < filmPlanets.length; j++) {
+          graphData["links"].push({
+            source: planetList[i]["id"],
+            target: filmPlanets[j]["id"]
+          })
+        } 
+      }
   }  
 
   console.log(graphData);
