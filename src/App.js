@@ -1,7 +1,8 @@
 import './App.css';
 import { useQuery, gql } from '@apollo/client';
 import ForceGraph3D from 'react-force-graph-3d';
-import { useEffect } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
+import Sidebar from './components/Sidebar/Sidebar'
 
 const ALL_PLANETS = gql`
 {
@@ -103,16 +104,38 @@ function App() {
   }
     
   }, [loadingFilms, loadingPlanets, filmData, planetData, graphData]);
+
+  const fgRef = useRef();
+
+  const handleClick = useCallback(node => {
+    // Aim at node from outside it
+    const distance = 40;
+    const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
+
+    fgRef.current.cameraPosition(
+      { x: node.x * distRatio, y: node.y * distRatio, z: node.z * distRatio }, // new position
+      node, // lookAt ({ x, y, z })
+      2000  // ms transition duration
+    );
+
+  }, [fgRef]);
   
   if (loadingPlanets && loadingFilms) return <p>Loading...</p>;
 
-  return(<ForceGraph3D
-    graphData={graphData}
-    backgroundColor="#2162A2"
-    nodeOpacity={1}
-    linkOpacity={1}
-    linkWidth={1}
-  />)
+  return(
+    <>
+      <ForceGraph3D
+        ref={fgRef}
+        graphData={graphData}
+        backgroundColor="#2162A2"
+        nodeOpacity={1}
+        linkOpacity={1}
+        linkWidth={1}
+        onNodeClick={handleClick}
+      />
+      <Sidebar></Sidebar>
+    </>
+  )
 
 }
 
