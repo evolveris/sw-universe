@@ -1,7 +1,7 @@
 import './App.css';
 import { useQuery, gql } from '@apollo/client';
 import ForceGraph3D from 'react-force-graph-3d';
-import { useEffect, useCallback, useRef } from 'react';
+import { useEffect, useCallback, useRef, useState } from 'react';
 import Sidebar from './components/Sidebar/Sidebar'
 
 const ALL_PLANETS = gql`
@@ -43,6 +43,7 @@ function App() {
 
   const { loading: loadingPlanets, data: planetData } = useQuery(ALL_PLANETS);
   const { loading: loadingFilms, data: filmData } = useQuery(ALL_FILMS);
+  const [showSidebar, setShowSidebar] = useState(false); 
 
   const graphData = {
     nodes: [],
@@ -118,6 +119,7 @@ function App() {
       2000  // ms transition duration
     );
 
+    setShowSidebar(true);
   }, [fgRef]);
   
   if (loadingPlanets && loadingFilms) return <p>Loading...</p>;
@@ -133,7 +135,7 @@ function App() {
         linkWidth={1}
         onNodeClick={handleClick}
       />
-      <Sidebar></Sidebar>
+      <Sidebar showSidebar={showSidebar}></Sidebar>
     </>
   )
 

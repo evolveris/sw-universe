@@ -1,10 +1,10 @@
 import StyledSidebar from './Sidebar.styled';
 
-function Sidebar () {
+function Sidebar ({ showSidebar }) {
     return (
-      <StyledSidebar>
-        <h1>Sidebar</h1>
-      </StyledSidebar>
+      <>
+      {showSidebar ? <StyledSidebar /> : null}
+      </>
     );
 }
   
