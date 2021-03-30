@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import InlineEdit from './InlineEdit'
 
 const Container = styled.div`
     background-color: white;
@@ -13,29 +14,11 @@ const Container = styled.div`
     box-shadow: 2px 2px 10px 0 #b7c7cc;
     border-radius: 5px;
 `
-const Text = styled.span`
-    color: #2162a2;
-    cursor: pointer;
-    border-bottom: 1px dashed #999999
-`
+
 
 const Title = styled.h3`
     color: black;
 `
-const Input = styled.input`
-    border-bottom: 1px solid #666666;
-`
-
-const InlineEdit = () => {
-    return(
-        <>
-            <Text>
-                <Text>Test</Text>
-                {/* <input onChange={(e) => setInputValue(e.target.value)}/> */}
-            </Text>
-        </>
-    )
-}
 
 const StyledSidebar = () => {
     return(

@@ -1,5 +1,6 @@
 import './App.css';
 import { useQuery, gql } from '@apollo/client';
+import Store from './store/store';
 import ForceGraph3D from 'react-force-graph-3d';
 import { useEffect, useCallback, useRef, useState } from 'react';
 import Sidebar from './components/Sidebar/Sidebar'
@@ -125,7 +126,7 @@ function App() {
   if (loadingPlanets && loadingFilms) return <p>Loading...</p>;
 
   return(
-    <>
+    <Store>
       <ForceGraph3D
         ref={fgRef}
         graphData={graphData}
@@ -136,7 +137,7 @@ function App() {
         onNodeClick={handleClick}
       />
       <Sidebar showSidebar={showSidebar}></Sidebar>
-    </>
+    </Store>
   )
 
 }
