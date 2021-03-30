@@ -1,9 +1,12 @@
 import StyledSidebar from './Sidebar.styled';
+import { Context } from './../../store/store'
+import { useContext } from 'react';
 
-function Sidebar ({ showSidebar }) {
+function Sidebar () {
+    const [state, dispatch] = useContext(Context);
     return (
       <>
-      {showSidebar ? <StyledSidebar /> : null}
+      {state.showSidebar ? <StyledSidebar /> : null}
       </>
     );
 }

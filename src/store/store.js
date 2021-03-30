@@ -3,6 +3,7 @@ import Reducer from './reducer'
 
 const globalState = {
     currentNode: null,
+    showSidebar: false,
     error: null
 };
 

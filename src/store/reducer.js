@@ -5,6 +5,11 @@ const Reducer = (state, action) => {
                 ...state,
                 currentNode: action.payload
             }
+        case 'SET_SHOW_SIDEBAR':
+            return {
+                ...state,
+                showSidebar: action.payload
+            }
         case 'SET_ERROR':
             return {
                 ...state,
