@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import InlineEdit from './InlineEdit'
+import { Context } from './../../store/store'
+import { useContext } from 'react';
 
 const Container = styled.div`
     background-color: white;
@@ -40,9 +42,13 @@ const ButtonClose = styled.p`
 `
 
 const StyledSidebar = () => {
+    const [state, dispatch] = useContext(Context);
+    const handleSidebarButtonClose = () => {
+        dispatch({type: 'SET_SHOW_SIDEBAR', payload: false})
+    }
     return(
         <Container>
-            <Button type="button" aria-label="Close">
+            <Button type="button" aria-label="Close" onClick={handleSidebarButtonClose}>
                 <ButtonClose aria-hidden="true" focusable="false">x</ButtonClose>
             </Button>
             <Title>Star Wars Universe Explorer</Title>
