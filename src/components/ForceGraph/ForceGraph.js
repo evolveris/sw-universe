@@ -1,48 +1,13 @@
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import ForceGraph3D from 'react-force-graph-3d';
 import { useEffect, useCallback, useRef, useContext } from 'react';
 import { Context } from '../../store/store'
-
-const ALL_PLANETS = gql`
-{
-  allPlanets {
-    planets { 
-        name
-      	id
-        diameter
-      	filmConnection {
-      	  films {
-      	    id
-            title
-      	  }
-      	}
-    }
-  }
-}
-`;
-
-const ALL_FILMS = gql`
-{
-  allFilms {
-    films {
-     title
-     id
-     planetConnection {
-       planets {
-         name
-         id
-       }
-     }
-   }
-  }
- }
-`
+import { ALL_PLANETS, ALL_FILMS } from './../../graphql/queries'
 
 const ForceGraph = () => {
-
   const { loading: loadingPlanets, data: planetData } = useQuery(ALL_PLANETS);
   const { loading: loadingFilms, data: filmData } = useQuery(ALL_FILMS);
-  // const [showSidebar, setShowSidebar] = useState(false); 
+ 
   const [state, dispatch] = useContext(Context);
 
   const graphData = {
@@ -108,7 +73,7 @@ const ForceGraph = () => {
 
   const fgRef = useRef();
 
-  const handleClick = useCallback(node => {
+  const handleNodeClick = useCallback(node => {
     // Aim at node from outside it
     const distance = 40;
     const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
@@ -120,10 +85,16 @@ const ForceGraph = () => {
     );
     
     dispatch({type: 'SET_SHOW_SIDEBAR', payload: true})
+    dispatch({type: 'SET_CURRENT_NODE', payload: {
+        isPlanet: null,
+        name: node.name,
+        associations: []
+      }
+    })
   }, [fgRef]);
   
   if (loadingPlanets && loadingFilms) return <p>Loading...</p>;
-
+  console.log("store state after focus", state);
   return(
       <ForceGraph3D
         ref={fgRef}
@@ -132,7 +103,7 @@ const ForceGraph = () => {
         nodeOpacity={1}
         linkOpacity={1}
         linkWidth={1}
-        onNodeClick={handleClick}
+        onNodeClick={handleNodeClick}
       />
   )
 }

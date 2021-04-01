@@ -1,8 +1,19 @@
 import React, {createContext, useReducer} from "react";
 import Reducer from './reducer'
 
+const NODE_TYPES = {
+    UNKNOWN: "unknown",
+    PLANET: "planet",
+    MOVIE: "movie"
+}
+
+/** @type {StarWarsGlobalState} */
 const globalState = {
-    currentNode: null,
+    currentNode: {
+        isPlanet: null,
+        name: "",
+        associations: []
+    },
     showSidebar: false,
     error: null
 };
