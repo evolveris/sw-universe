@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { ApolloClient, InMemoryCache, gql, ApolloProvider } from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import config from './config'
 
 const client = new ApolloClient({
-  uri: 'http://localhost:58215/',
+  uri: config.swapi_graphql.baseUrl,
   cache: new InMemoryCache()
 });
 
