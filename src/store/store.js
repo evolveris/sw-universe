@@ -10,10 +10,11 @@ const NODE_TYPES = {
 /** @type {StarWarsGlobalState} */
 const globalState = {
     currentNode: {
-        isPlanet: null,
+        type: NODE_TYPES.UNKNOWN,
         name: "",
-        associations: []
+        id: null,
     },
+    graph: null,
     showSidebar: false,
     error: null
 };
