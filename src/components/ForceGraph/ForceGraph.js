@@ -89,7 +89,7 @@ const ForceGraph = () => {
     }
   }, [isGraphDataComplete])
 
-  const handleNodeClick = useCallback(node => {
+  const handleNodeClick = useCallback(node => {    
     // Aim at node from outside it
     const distance = 40;
     const distRatio = 1 + distance/Math.hypot(node.x, node.y, node.z);
@@ -107,10 +107,6 @@ const ForceGraph = () => {
         type: node.type
       }
     })
-    
-    console.log(forceGraphRef.current);
-
-    
   }, [forceGraphRef]);
 
   if (loadingPlanets && loadingFilms) return <p>Loading...</p>;
