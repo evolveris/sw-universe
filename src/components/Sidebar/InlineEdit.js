@@ -2,7 +2,7 @@ import { EditableText, Input } from './InlineEdit.styled'
 import { Context } from './../../store/store'
 import { useContext, useState } from 'react';
 
-const InlineEdit = () => {
+const InlineEdit = ({ text }) => {
     const [state, dispatch] = useContext(Context);
     const [showInput, setShowInput] = useState(false);
     const [showText, setShowText] = useState(true);
@@ -22,15 +22,15 @@ const InlineEdit = () => {
             <p>
                 {showText ?
                     <>   
-                        <EditableText onClick={handleInlineEditToggle}>{state.currentNode.name}</EditableText> 
+                        <EditableText onClick={handleInlineEditToggle}>{text}</EditableText> 
                     </> 
                     
                     : null
                 }
                 {showInput ? 
                     <>
-                        <label htmlFor="nodeNameInput">Node name</label> 
-                        <Input onChange={handleInputChange} id="nodeNameInput" type="text" placeholder={state.currentNode.name}></Input> 
+                        <label htmlFor="nodeNameInput">Edit node</label> 
+                        <Input onChange={handleInputChange} id="nodeNameInput" type="text" placeholder={text}></Input> 
                     </>
                     : null
                 }

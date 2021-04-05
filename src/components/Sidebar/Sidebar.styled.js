@@ -34,6 +34,13 @@ const Button = styled.button`
     border-radius: 5px;
 `
 
+const Subtitle = styled.p`
+    font-family: 'Gruppo', cursive;
+    text-transform: uppercase;
+    font-size: 14px;
+    letter-spacing: 4px;
+`
+
 const ButtonClose = styled.span`
     margin: 0;
     font-size: 16px;
@@ -64,10 +71,11 @@ const StyledSidebar = () => {
                 <ButtonClose aria-hidden="true" focusable="false">✖</ButtonClose>
             </Button>
             <Title>Star Wars Universe Explorer</Title>
-            <InlineEdit></InlineEdit>
-            <p>Associated nodes:</p>
+            <Subtitle>{state.currentNode.type === "planet" ? `Planet:` : `Film`}</Subtitle>
+            <InlineEdit text={state.currentNode.name}></InlineEdit>
+            <Subtitle>{state.currentNode.type === "planet" ? `Films:` : `Select a planet to see associated films.`}</Subtitle>
             {targets.length > 0 && targets.map((elem) => {
-                return <p key={elem}>{elem}</p>
+                return <InlineEdit key={elem} text={elem}></InlineEdit>
             })}
         </Container>
     )
