@@ -11,7 +11,7 @@ const ForceGraph = () => {
   const [state, dispatch] = useContext(Context);
   const [isGraphDataComplete, setGraphDataIsComplete] = useState(false);
 
-  const graphData = {
+  let graphData = {
     nodes: [],
     links: []
   }
@@ -20,65 +20,66 @@ const ForceGraph = () => {
     
   const planetList = planetData?.allPlanets.planets;
   const filmList = filmData?.allFilms.films;
-  
-  if (planetList && filmList) {
 
-    // populate graph data with unique planets
-    for (let i = 0; i < planetList.length; i++) {
-      graphData["nodes"].push({
-        id: planetList[i]["id"],
-        name: planetList[i]["name"],
-        val: planetList[i]["diameter"] ? planetList[i]["diameter"] /1000 : 1,
-        type: "planet"
-      })
-    }
+  if (state.graph === null) {
+    if (planetList && filmList) {
 
-    // populate graph data with unique films
-    for (let i = 0; i < filmList.length; i++) {
-      graphData["nodes"].push({
-        id: filmList[i]["id"],
-        name: filmList[i]["title"],
-        val: 5,
-        type: "film"
-      })
-    }
-
-    // circular graph
-    const filmlessPlanets = planetList.filter((obj) => obj["filmConnection"]["films"].length === 0);
-
-    for (let i = 0; i < filmlessPlanets.length - 1; i++) {
-      if (i === filmlessPlanets.length - 2) {
-        graphData["links"].push({
-          source: filmlessPlanets[0]["id"],
-          target: filmlessPlanets[filmlessPlanets.length - 2]["id"],
-        })
-      } else {
-        graphData["links"].push({
-          source: filmlessPlanets[i]["id"],
-          target: filmlessPlanets[i+1]["id"],
+      // populate graph data with unique planets
+      for (let i = 0; i < planetList.length; i++) {
+        graphData["nodes"].push({
+          id: planetList[i]["id"],
+          name: planetList[i]["name"],
+          val: planetList[i]["diameter"] ? planetList[i]["diameter"] /1000 : 1,
+          type: "planet"
         })
       }
-    }
-
-    // create tree with associations
-    for (let i = 0; i < planetList.length; i++) {
-      const planetFilmConnectionList = planetList[i]["filmConnection"]["films"];
-        if (planetFilmConnectionList.length > 0) {
-          for (let j = 0; j < planetFilmConnectionList.length; j++) {
-            graphData["links"].push({
-              source: planetList[i]["id"],
-              target: planetFilmConnectionList[j]["id"],
-              sourceName: planetList[i]["name"],
-              targetName: planetFilmConnectionList[j]["title"]
-            })
-          } 
+  
+      // populate graph data with unique films
+      for (let i = 0; i < filmList.length; i++) {
+        graphData["nodes"].push({
+          id: filmList[i]["id"],
+          name: filmList[i]["title"],
+          val: 5,
+          type: "film"
+        })
+      }
+  
+      // circular graph
+      const filmlessPlanets = planetList.filter((obj) => obj["filmConnection"]["films"].length === 0);
+  
+      for (let i = 0; i < filmlessPlanets.length - 1; i++) {
+        if (i === filmlessPlanets.length - 2) {
+          graphData["links"].push({
+            source: filmlessPlanets[0]["id"],
+            target: filmlessPlanets[filmlessPlanets.length - 2]["id"],
+          })
+        } else {
+          graphData["links"].push({
+            source: filmlessPlanets[i]["id"],
+            target: filmlessPlanets[i+1]["id"],
+          })
         }
+      }
+  
+      // create tree with associations
+      for (let i = 0; i < planetList.length; i++) {
+        const planetFilmConnectionList = planetList[i]["filmConnection"]["films"];
+          if (planetFilmConnectionList.length > 0) {
+            for (let j = 0; j < planetFilmConnectionList.length; j++) {
+              graphData["links"].push({
+                source: planetList[i]["id"],
+                target: planetFilmConnectionList[j]["id"],
+                sourceName: planetList[i]["name"],
+                targetName: planetFilmConnectionList[j]["title"]
+              })
+            } 
+          }
+      }
+      setGraphDataIsComplete(true);
     }
-
-    setGraphDataIsComplete(true);
   }
-
-  }, [loadingFilms, loadingPlanets, planetData, filmData, graphData]);
+  console.log(state.graph);
+  }, [loadingFilms, loadingPlanets, planetData, filmData, graphData, state.graph]);
   
   const forceGraphRef = useRef();
 
@@ -113,7 +114,7 @@ const ForceGraph = () => {
   return(
     <ForceGraph3D
       ref={forceGraphRef}
-      graphData={graphData}
+      graphData={state.graph === null ? graphData : state.graph}
       backgroundColor="#2162A2"
       nodeOpacity={1}
       linkOpacity={1}

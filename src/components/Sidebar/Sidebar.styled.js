@@ -49,7 +49,7 @@ const ButtonClose = styled.span`
 
 const StyledSidebar = () => {
     const [state, dispatch] = useContext(Context);
-    const [targets, setTargets] = useState([]);
+    const [associatedMovieNames, setAssociatedMovieNames] = useState([]);
 
     const handleSidebarButtonClose = () => {
         dispatch({type: 'SET_SHOW_SIDEBAR', payload: false})
@@ -58,12 +58,12 @@ const StyledSidebar = () => {
     useEffect(() => {
         state.graph.links.forEach((link) => {
             if (link["sourceName"] === state.currentNode.name) {
-                if (!targets.includes(link["targetName"])) {
-                    setTargets([...targets, link["targetName"]]);
+                if (!associatedMovieNames.includes(link["targetName"])) {
+                    setAssociatedMovieNames([...associatedMovieNames, link["targetName"]]);
                 }
             }
         })
-    }, [state, targets]);
+    }, [state, associatedMovieNames]);
 
     return(
         <Container>
@@ -74,8 +74,12 @@ const StyledSidebar = () => {
             <Subtitle>{state.currentNode.type === "planet" ? `Planet:` : `Film`}</Subtitle>
             <InlineEdit text={state.currentNode.name}></InlineEdit>
             <Subtitle>{state.currentNode.type === "planet" ? `Films:` : `Select a planet to see associated films.`}</Subtitle>
-            {targets.length > 0 && targets.map((elem) => {
-                return <InlineEdit key={elem} text={elem}></InlineEdit>
+            {associatedMovieNames.length > 0 && associatedMovieNames.map((movieName) => {
+                return <InlineEdit 
+                    key={movieName}
+                    text={movieName}
+                    htmlId={movieName}
+                />
             })}
         </Container>
     )
