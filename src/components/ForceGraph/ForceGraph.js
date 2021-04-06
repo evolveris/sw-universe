@@ -78,7 +78,6 @@ const ForceGraph = () => {
       setGraphDataIsComplete(true);
     }
   }
-  console.log(state.graph);
   }, [loadingFilms, loadingPlanets, planetData, filmData, graphData, state.graph]);
   
   const forceGraphRef = useRef();

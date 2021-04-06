@@ -48,7 +48,7 @@ const InlineEdit = ({ text, htmlId }) => {
             <p>
                 {showText ?
                     <>   
-                        <EditableText onClick={handleInlineEditToggle}>{text}</EditableText> 
+                        <EditableText onClick={handleInlineEditToggle}>{newCurrentNodeName !== null ? newCurrentNodeName : text}</EditableText> 
                     </> 
                     : null
                 }
