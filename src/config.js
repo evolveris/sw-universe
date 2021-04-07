@@ -1,6 +1,6 @@
 const config = {
     swapi_graphql: {
-        baseUrl: 'http://localhost:60037/'    
+        baseUrl: 'https://swapi.apis.guru/'    
     }
 };
 

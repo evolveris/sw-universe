@@ -1,5 +1,7 @@
 # Star Wars Universe
 
+![Screenshot of Star Wars Universe Explorer](https://i.ibb.co/4mNBhXJ/sw-universe-explorer.png)
+
 ## About
 
 This app is fetching data from the [SWAPI](https://swapi.dev/) API via a [GrapQL wrapper, served locally](https://github.com/graphql/swapi-graphql). Using some of that available date, we are representing the connection between planets and films using the [React Force Graph library](https://github.com/vasturiano/react-force-graph). 
